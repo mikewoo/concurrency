@@ -5,7 +5,7 @@ import com.mikewoo.study.concurrency.annotations.NotThreadSafe;
 /**
  * <p>饿汉模式 - 双重检查锁（double checked locking）模式</p>
  * <p>加载时机：单例实例在第一次使用时创建，线程不安全</p>
- * <p>说明：使用双重检查锁模式的单例模型，性能上得到了优化提升，但在多线程环境中由于JVM和CPU优化，发生指令重排，也会重现线程安全问题。</p>
+ * <p>说明：使用双重检查锁模式的单例模型，性能上得到了优化提升，但在多线程环境中由于JVM和CPU优化，发生指令重排，也会出现线程安全问题。</p>
  * <p>线程不安全现象说明：</p>
  * 通常一个对象创建的过程大致经过以下三步：
  * <blockquote>
