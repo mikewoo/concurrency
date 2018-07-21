@@ -1,20 +1,22 @@
-package com.mikewoo.study.concurrency;
+package com.mikewoo.study.concurrency.example.count;
 
-import com.mikewoo.study.concurrency.annotations.NotThreadSafe;
+import com.mikewoo.study.concurrency.annotations.ThreadSafe;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
+ * 使用Atomic原子包实现线程安全的计数操作
  * @author Eric Gui
  * @date 2018/7/20
  */
 @Slf4j
-@NotThreadSafe
-public class ConcurrencyTest {
+@ThreadSafe
+public class CountExample2 {
 
     // 请求总数
     public static final int clientTotal = 5000;
@@ -22,7 +24,7 @@ public class ConcurrencyTest {
     // 同时并发执行的线程数
     public static final int threadTotal = 200;
 
-    public static int count = 0;
+    public static AtomicInteger count = new AtomicInteger(0);
 
     public static void main(String[] args) throws Exception {
         ExecutorService executorService = Executors.newCachedThreadPool();
@@ -43,10 +45,11 @@ public class ConcurrencyTest {
         }
 
         countDownLatch.await();
-        log.info("count: {}", count);
+        executorService.shutdown();
+        log.info("count: {}", count.get());
     }
 
     public static void add() {
-        count++;
+        count.incrementAndGet();
     }
 }
